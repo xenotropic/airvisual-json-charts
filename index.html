@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<title>Air Visual Pro - Hourly</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+   <style>
+   canvas{
+   -moz-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+ }
+      body {                                                                                   
+     font-family: Sans-Serif;       
+       }   
+
+   </style>
+</head>
+   <body>
+   <div style="width:85%;">
+   <canvas id="chart"></canvas>
+   </div>
+   <script>
+     var timestamps = [];
+     var C02data = [];
+     var PM25data = [];
+     var rawdata = [];
+
+     $.getJSON( "https://morris.cloud/airvisualtest.json", function( data ) {  // this is a test file; replace this with your Pro's API link, see https://support.iqair.com/en/articles/3029330-how-to-access-the-airvisual-pro-s-api
+     rawdata = data;
+     data.historical.hourly.reverse();
+     $.each( data.historical.hourly, function( key, val ) {
+     var d = new Date(val.ts);
+     let options_time = {
+     hour: "2-digit", weekday: "short"
+     };
+     timestamps.push( d.toLocaleTimeString("en-us", options_time ).replace(/0([1-9])/, '$1') );  // regex is to remove leading zeroes in times
+     C02data.push (val.co_sum);
+     PM25data.push (val.p2_sum)
+     });
+
+     var canvas = document.getElementById('chart');
+     var chart = new Chart(canvas, {
+     type: 'line',
+     data: {
+     labels: timestamps,
+     datasets: [{
+     borderColor: '#4CBB17',
+     fill: false,
+     label: 'CO2 (PPM)',
+     yAxisID: 'C02',
+     data: C02data
+     }, {
+     borderColor: '#6B4226',
+     fill: false,
+     label: 'PM2.5 (\u03BCg/m\u00B3)',
+     yAxisID: 'PM2.5',
+     data: PM25data
+     }]
+     },
+     options: {
+     scales: {
+     yAxes: [{
+     id: 'C02',
+     type: 'linear',
+     position: 'left',
+     }, {
+     id: 'PM2.5',
+     type: 'linear',
+     position: 'right',
+     }]
+     }
+     }
+     });
+
+      });
+   </script>
+   </body>
+   </html>
+ 
