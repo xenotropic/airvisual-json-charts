@@ -1,5 +1,5 @@
 # airvisual-json-charts
-Uses charts.js to display JSON data from a single IQAir AirVisual Pro device. It looks like this:
+Uses chart.js to display JSON data from a single IQAir AirVisual Pro device. It looks like this:
 
 ![Example Chart](https://morris.cloud/airvisual-json-charts/airvisual-json-charts_demo.jpg)
 
