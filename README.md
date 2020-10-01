@@ -7,7 +7,7 @@ To use this, drop the html file into a web server (or just download it and open 
 
 This repo version has a link to a static JSON file for demo purposes. You can see this page rendered (with that static data) [here](https://morris.cloud/airvisual-json-charts/), which basically looks like the graph above but you can hover for datapoint info, and also switch between hourly and instant data.
 
-As of this initial commit, the PM2.5 is displaying as micrograms per cubic liter. Eventually I hope to add in the US and Chinese AQI conversions. Also temp and humidity, and the "instant" data, and maybe daily data. 
+As of this initial commit, the PM2.5 is displaying as micrograms per cubic liter. Eventually I hope to add in the US and Chinese AQI conversions. Also temp and humidity, and maybe daily data. 
 
 Note that anyone who has this page after you put in your Pro's API link will then thereafter have that URL and the data from it. So using this is pretty much the same as making your Pro's data public. 
 
