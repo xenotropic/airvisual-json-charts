@@ -5,7 +5,6 @@
     <title></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.js"></script>
 
@@ -37,7 +36,7 @@
     </div>
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
 
 var timestamps = [];
@@ -47,6 +46,7 @@ var rawdata = [];
 var canvas = document.getElementById('chart');
 var chart;
 
+//$.getJSON("https://www.airvisual.com/api/v2/node/5f6eb50d68e4826ac0cca6f6", function(data) {
 $.getJSON("https://morris.cloud/airvisualtest.json", function(data) {
   rawdata = data;
   data.historical.hourly.reverse();
@@ -86,48 +86,49 @@ $.getJSON("https://morris.cloud/airvisualtest.json", function(data) {
   });
 
 });
-
-$("#instant").click(function() {
-  C02data.length = 0;
-  PM25data.length = 0;
-  timestamps.length = 0;
-  $.each(rawdata.historical.instant, function(key, val) {
-    var d = new Date(val.ts);
-    let options = {
-      hour: "2-digit",
-      weekday: "short"
-    };
-    timestamps.push(d.toLocaleTimeString("en-us", options).replace(/^0+/, ''));
-    C02data.push(val.co);
-    PM25data.push(val.p2)
-  });
-  chart.update();
-});
-
-$("#hourly").click(function() {
-  C02data.length = 0;
-  PM25data.length = 0;
-  timestamps.length = 0;
-  updateHourly();
-  chart.update();
-});
-
-function updateHourly() {
-  $.each(rawdata.historical.hourly, function(key, val) {
-    var d = new Date(val.ts);
-    let options = {
-      hour: "2-digit",
-      weekday: "short"
-    };
-    timestamps.push(d.toLocaleTimeString("en-us", options).replace(/^0+/, ''));
-    C02data.push(val.co_sum);
-    PM25data.push(val.p2_sum)
-  });
-
-}
-
-
-
+      
+      $("#instant").click(function() {
+      C02data.length = 0;
+      PM25data.length = 0;
+      timestamps.length = 0;
+      $.each(rawdata.historical.instant, function(key, val) {
+	  var d = new Date(val.ts);
+	  let options = {
+	      hour: "2-digit",
+	      minute: "2-digit",
+	      weekday: "short"
+	  };
+	  timestamps.push(d.toLocaleTimeString("en-us", options).replace(/^:0([1-9])/, '$1'));
+	  C02data.push(val.co);
+	  PM25data.push(val.p2)
+      });
+      chart.update();
+      });
+      
+      $("#hourly").click(function() {
+	  C02data.length = 0;
+	  PM25data.length = 0;
+	  timestamps.length = 0;
+	  updateHourly();
+	  chart.update();
+      });
+      
+      function updateHourly() {
+	  $.each(rawdata.historical.hourly, function(key, val) {
+	      var d = new Date(val.ts);
+	      let options = {
+		  hour: "2-digit",
+		  weekday: "short"
+	      };
+	      timestamps.push(d.toLocaleTimeString("en-us", options).replace(/0([1-9])/, '$1'));
+	      C02data.push(val.co_sum);
+	      PM25data.push(val.p2_sum)
+	  });
+	  
+      }
+      
+      
+      
  </script>
 
 
